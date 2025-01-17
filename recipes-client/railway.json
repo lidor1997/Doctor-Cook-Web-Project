@@ -1,0 +1,10 @@
+{
+  "build": {
+    "base": ".",
+    "commands": {
+      "install": "npm install",
+      "build": "npm run build"
+    },
+    "outputDir": "build"
+  }
+}
