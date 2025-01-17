@@ -3,7 +3,7 @@ import { default as Axios } from "axios";
 import { appStorage } from "../appStorage";
 
 export const axios = Axios.create({
-  baseURL: "http://localhost:3001/api",
+  baseURL: "dr-cook-api.up.railway.app",
 });
 
 axios.interceptors.request.use(async (config) => {
