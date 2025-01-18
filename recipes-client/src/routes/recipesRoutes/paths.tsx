@@ -1,5 +1,5 @@
 export const recipesPaths = {
-  recipes: "/recipes/",
+  recipes: "/recipes",
   favorites: "/favorites",
 
   recipe: "/recipes/:id",

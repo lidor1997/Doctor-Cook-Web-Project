@@ -6,6 +6,14 @@ import { aboutUsRoutes } from "./aboutUsRoutes";
 
 export const AppRoutes = () => {
   const routes: RouteObject[] = [
+    {
+      path: "*",
+      element: <Navigate to={appRoutes.recipes.recipes} replace />,
+    },
+    {
+      path: "/",
+      element: <Navigate to={appRoutes.recipes.recipes} replace />,
+    },
     ...aboutUsRoutes,
     ...authRoutes,
     ...recipesRoutes,
