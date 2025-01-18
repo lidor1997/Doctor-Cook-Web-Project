@@ -1,8 +1,9 @@
-import { RouteObject, useRoutes } from "react-router-dom";
+import { Navigate, RouteObject, useRoutes } from "react-router-dom";
 
 import { authRoutes } from "./authRoutes";
 import { recipesRoutes } from "./recipesRoutes";
 import { aboutUsRoutes } from "./aboutUsRoutes";
+import { routes as appRoutes } from "./routes";
 
 export const AppRoutes = () => {
   const routes: RouteObject[] = [
