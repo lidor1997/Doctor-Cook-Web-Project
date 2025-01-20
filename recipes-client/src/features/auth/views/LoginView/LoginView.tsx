@@ -112,21 +112,23 @@ export function LoginView() {
             Login
           </button>
 
-          <div className="relative text-center text-amber-800 dark:text-white mt-4 text-sm md:text-base">
-            Don't have an account?{" "}
-            <span
-              onClick={handleRegisterRedirect}
-              className="text-amber-800 dark:text-white font-semibold hover:text-amber-900 dark:hover:text-gray-300 cursor-pointer"
-            >
-              Sign up
-            </span>
-            {showSignUpHint && (
-              <div className="absolute -right-3 top-0.5 animate-bounce flex items-center">
-                <span className="text-amber-800 dark:text-black text-lg whitespace-nowrap">
-                  ← Sign up!
+          <div className="relative text-center text-amber-800 dark:text-white mt-4 text-sm md:text-base flex justify-center">
+            <div className="relative inline-flex items-center">
+              Don't have an account?{" "}
+              <div className="relative inline-block">
+                <span
+                  onClick={handleRegisterRedirect}
+                  className="text-amber-800 dark:text-white font-semibold hover:text-amber-900 dark:hover:text-gray-300 cursor-pointer ml-1 relative z-10 -right-1"
+                >
+                   Sign up
                 </span>
+                {showSignUpHint && (
+                  <div 
+                    className="absolute inset-0 -m-1 rounded-md border-2 border-amber-800 dark:border-white shadow-[0_0_10px_rgba(146,64,14,0.3)] animate-pulse +left+1 -right-3"
+                  />
+                )}
               </div>
-            )}
+            </div>
           </div>
         </form>
       </div>
