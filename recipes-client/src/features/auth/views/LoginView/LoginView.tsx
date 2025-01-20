@@ -10,20 +10,30 @@ export function LoginView() {
 
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
+  const [errorMessage, setErrorMessage] = useState("");
+  const [showSignUpHint, setShowSignUpHint] = useState(false);
 
   const { handleUser } = useUser();
 
   const handleLogin = async (e: React.MouseEvent<HTMLButtonElement>) => {
+    e.preventDefault();
+    setErrorMessage("");
+    setShowSignUpHint(false);
+
+    if (!username || !password) {
+      setErrorMessage("Please fill in all fields");
+      return;
+    }
+
     try {
-      e.preventDefault();
-
       const user = await login({ username, password });
-
       appStorage.setToken(user.token);
       handleUser(user);
       navigate(routes.recipes.recipes);
-    } catch (err) {
-      console.error(err);
+    } catch (err: any) {
+      setErrorMessage("Wrong credentials");
+      // Show signup hint for any login error
+      setShowSignUpHint(true);
     }
   };
 
@@ -53,10 +63,11 @@ export function LoginView() {
             Welcome Back!
           </h1>
 
-          <div
-            id="errorMessage"
-            className="hidden text-red-500 text-center text-sm"
-          ></div>
+          {errorMessage && (
+            <div className="text-amber-800 dark:text-white text-center text-sm bg-amber-50 dark:bg-amber-900/30 p-2 rounded-lg border border-amber-800 dark:border-white">
+              {errorMessage}
+            </div>
+          )}
 
           <div>
             <label
@@ -101,15 +112,22 @@ export function LoginView() {
             Login
           </button>
 
-          <p className="text-center text-amber-800 dark:text-white mt-4 text-sm md:text-base">
-            Don't have an account? {" "}
+          <div className="relative text-center text-amber-800 dark:text-white mt-4 text-sm md:text-base">
+            Don't have an account?{" "}
             <span
               onClick={handleRegisterRedirect}
               className="text-amber-800 dark:text-white font-semibold hover:text-amber-900 dark:hover:text-gray-300 cursor-pointer"
             >
               Sign up
             </span>
-          </p>
+            {showSignUpHint && (
+              <div className="absolute -right-3 top-0.5 animate-bounce flex items-center">
+                <span className="text-amber-800 dark:text-black text-lg whitespace-nowrap">
+                  ← Sign up!
+                </span>
+              </div>
+            )}
+          </div>
         </form>
       </div>
     </div>
