@@ -80,7 +80,7 @@ export const RecipeCard = ({ recipe }: RecipeCardProps) => {
                 alt="LightClock"
               />
               <span className="dark:text-white ml-1 text-base sm:text-lg font-bold">
-                Cooking time: {recipe.cookTime}
+                Cooking time: {recipe.cookTime} Minutes
               </span>
             </span>
           </div>
@@ -93,7 +93,7 @@ export const RecipeCard = ({ recipe }: RecipeCardProps) => {
               onClick={handleNavigateToRecipe}
               className="dark:bg-gray-900 dark:text-white dark:border-white w-full sm:w-40 h-10 rounded-full border border-amber-800 text-amber-800 bg-gray-100 sm:absolute sm:bottom-5 sm:right-5"
             >
-              To The Full Recipe
+              View Full Recipe
             </button>
           </div>
         </div>
