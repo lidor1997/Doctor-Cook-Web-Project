@@ -7,6 +7,7 @@ import { routes } from "../../../../routes";
 export const RecipeView = () => {
   const [recipe, setRecipe] = useState<RecipeType | null>(null);
   const [rating, setRating] = useState<number | null>(null);
+  const [speakingIndex, setSpeakingIndex] = useState<number | null>(null);
 
   const { pathname } = useLocation();
 
@@ -27,6 +28,39 @@ export const RecipeView = () => {
 
   const handleRating = (rating: number) => {
     setRating(rating);
+  };
+
+  const handleSpeak = (text: string, index: number) => {
+    window.speechSynthesis.cancel();
+
+    if (speakingIndex === index) {
+      setSpeakingIndex(null);
+      return;
+    }
+
+    const utterance = new SpeechSynthesisUtterance(text);
+    
+    // Make the voice more friendly
+    utterance.pitch = 1.1;     // Slightly higher pitch (default is 1)
+    utterance.rate = 0.9;      // Slightly slower rate (default is 1)
+    utterance.volume = 1;      // Maximum volume
+    
+    // Try to use a friendly voice if available
+    const voices = window.speechSynthesis.getVoices();
+    const preferredVoice = voices.find(
+      voice => 
+        voice.name.includes('Samantha') ||    // iOS/macOS friendly voice
+        voice.name.includes('Google UK Female') ||  // Chrome friendly voice
+        voice.name.includes('Microsoft Zira')      // Windows friendly voice
+    );
+    
+    if (preferredVoice) {
+      utterance.voice = preferredVoice;
+    }
+
+    utterance.onend = () => setSpeakingIndex(null);
+    setSpeakingIndex(index);
+    window.speechSynthesis.speak(utterance);
   };
 
   if (!recipe) return null;
@@ -151,12 +185,23 @@ export const RecipeView = () => {
             {recipe.instructions.map((inst, index) => (
               <li
                 key={inst + index}
-                className="flex gap-3 sm:gap-4 text-base sm:text-lg"
+                className="flex gap-3 sm:gap-4 text-base sm:text-lg items-start"
               >
                 <span className="dark:text-slate-400 font-bold text-amber-800">
                   {index + 1}.
                 </span>
                 <span>{inst}</span>
+                <button
+                  onClick={() => handleSpeak(inst, index)}
+                  className="ml-2 p-1 hover:opacity-70 transition-opacity"
+                  aria-label={speakingIndex === index ? "Stop speaking" : "Read instruction aloud"}
+                >
+                  {speakingIndex === index ? (
+                    <span className="text-amber-800 dark:text-white">■</span>
+                  ) : (
+                    <span className="text-amber-800 dark:text-white">🔊</span>
+                  )}
+                </button>
               </li>
             ))}
           </ol>
